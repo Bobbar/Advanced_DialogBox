@@ -120,8 +120,9 @@ Public Class MyDialog
     ''' <returns><see cref="FlowLayoutPanel"/></returns>
     Private Function ControlPanel() As FlowLayoutPanel
         Dim pnl As New FlowLayoutPanel
-        pnl.FlowDirection = FlowDirection.TopDown
         pnl.AutoSize = True
+        pnl.WrapContents = False
+        pnl.FlowDirection = FlowDirection.TopDown
         pnl.AutoSizeMode = AutoSizeMode.GrowAndShrink
         pnl.Padding = New Padding(0, 0, 10, 10)
         Return pnl
@@ -286,6 +287,7 @@ Public Class MyDialog
                         rtb.BackColor = pnlControls_Main.BackColor
                         rtb.Dock = DockStyle.Fill
                         rtb.TabStop = False
+                        AddHandler rtb.LinkClicked, AddressOf ClickedRTBLink
                         pnlControls_Main.Controls.Add(rtb)
                     Else
                         rtb.Width = 150
@@ -373,5 +375,8 @@ Public Class MyDialog
     Private Sub Yes_Button_Click(sender As Object, e As EventArgs) Handles Yes_Button.Click
         Me.DialogResult = DialogResult.Yes
         Me.Close()
+    End Sub
+    Private Sub ClickedRTBLink(sender As Object, e As LinkClickedEventArgs)
+        Process.Start(New Uri(e.LinkText).AbsolutePath)
     End Sub
 End Class
